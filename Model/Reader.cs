@@ -17,6 +17,15 @@ namespace Reader
             {
                 Console.WriteLine("Unable to find path.");
             }
+            try
+            {
+                RecorreDirectorio(args[0]);
+                Console.WriteLine("Listooo");
+            }
+            catch
+            {
+                Console.WriteLine($"File already exists");
+            }
         }
         public static int GetFilesNumber(string path)
         {
@@ -39,7 +48,7 @@ namespace Reader
 
             return total;
         }
-        void RecorreDirectorio(string path)
+        static void RecorreDirectorio(string path)
         {
             int nameOfFile = 97;
             DirectoryInfo d = new DirectoryInfo(path);
@@ -58,7 +67,7 @@ namespace Reader
                 if (amountOfFiles < 26)
                 {
                     amountOfFiles++;
-                    ProcessFile(file, level, nameOfFile, path);
+                    ProcessFile(file, level, nameOfFile);
                     nameOfFile++;
                 }
                 else
@@ -66,7 +75,7 @@ namespace Reader
                     amountOfFiles = 0;
                     level++;
                     nameOfFile = 97;
-                    ProcessFile(file, level, nameOfFile, path);
+                    ProcessFile(file, level, nameOfFile);
                     nameOfFile++;
                 }
             }
@@ -76,16 +85,16 @@ namespace Reader
                 RecorreDirectorio(subdirectory);
         }
 
-        void ProcessFile(FileInfo file, int level, int nameOfFile, string path)
+        static void ProcessFile(FileInfo file, int level, int nameOfFile)
         {
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i <= level; i++)
+            for (int i = 1; i <= level; i++)
             {
                 sb.Append("z");
             }
             sb.Append((char)nameOfFile);
             sb.Append(".jpg");
-            Microsoft.VisualBasic.FileIO.FileSystem.RenameFile(file.Name + path, sb.ToString());
+            Microsoft.VisualBasic.FileIO.FileSystem.RenameFile(file.FullName, sb.ToString());
         }
     }
 }
